@@ -1,14 +1,11 @@
-import { Body } from "./Body";
-import { NavBar } from "./NavBar";
+"use client"
+import { useState, useEffect } from 'react';
+import { ChevronRight, Zap, Shield, Rocket, Coins, ArrowRight, Sparkles } from 'lucide-react';
 
-export function HomePage(){
-    return (
-        <div className="flex flex-col items-center gap-6 bg-neutral-900 min-h-screen">
-            <NavBar />
-            <div className="flex font-bold text-[24px] text-slate-100">
-                Solana Token Creator
-            </div>
-            <Body/>
-        </div>
-    )
+export function SolForgeLanding() {
+  return (
+    <div >
+
+    </div>
+  )
 }
