@@ -185,7 +185,7 @@ export function Body(){
     },[name])
 
     return(
-        <div className="flex flex-col w-[70%] p-6 bg-slate-700  rounded-2xl md:flex-wrap gap-4 items-center justify-center">
+        <div className="flex flex-col w-[70%] p-6 bg-slate-700  rounded-2xl md:flex-wrap gap-4 items-center justify-center mb-[100px]">
             <div className="flex flex-col  md:flex-row flex-wrap gap-6 items-center justify-center">
                 <div className="flex flex-col text-slate-100 gap-2 min-w-[400px]">
                 <div>
@@ -224,7 +224,7 @@ export function Body(){
                     type="file"
                     accept="image/*"
                     onChange={handleImageUpload}
-                    disabled={isUploading}
+                    disabled={isUploading || !connection || !wallet.publicKey}
                     className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
                 />
                 {imageUri && (
@@ -234,12 +234,12 @@ export function Body(){
                 )}
             </div>
 
-            <div className="max-w-[100px] max-h-[100px]">
+            <div className="w-[100px] h-[100px] overflow-hidden rounded-lg ">
                 {imageData && (
                     <Image
                     src={imageData}
                     alt="image preview"
-                    className="max-w-[100px] w-full rounded-lg shadow-md"
+                    className="object-cover w-full h-full shadow-md"
                     width={100}
                     height={100}
                     />
@@ -247,11 +247,11 @@ export function Body(){
             </div>
               
             <div>
-                <button className={`px-3 py-1 rounded-lg ${
+                <button className={`px-4 py-2 rounded-lg  transition text-white ${
                         isUploading || !imageUri 
                             ? 'bg-gray-400 cursor-not-allowed' 
                             : 'bg-cyan-500 hover:bg-cyan-600'
-                    }`} onClick={MintCreation}>{isUploading?'Processing':'Create Token'}</button>
+                    }`} onClick={MintCreation} disabled={isUploading || !imageUri}>{isUploading?'Processing':'Create Token'}</button>
             </div>
 
             <div className="text-slate-100 text-center max-w-[600px] break-words">
