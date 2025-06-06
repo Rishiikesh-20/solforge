@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-neutral-900 min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-neutral-900 min-h-screen w-screen`}
       >
         <div className="flex flex-col items-center top-1 z-50 ">
            <WalletContextProvider>
