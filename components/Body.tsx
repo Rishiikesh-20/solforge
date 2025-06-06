@@ -23,6 +23,7 @@ import {
   createCreateMetadataAccountV3Instruction,
   PROGRAM_ID,
 } from "@metaplex-foundation/mpl-token-metadata";
+import { getExplorerLink } from "gill";
 
 export function Body() {
   const [name, setName] = useState("");
@@ -38,6 +39,8 @@ export function Body() {
   const [imageUri, setImageUri] = useState("");
   const { connection } = useConnection();
   const [Loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [signature,setSignature]=useState("")
   const MPL_TOKEN_METADATA_PROGRAM_ID = new PublicKey(PROGRAM_ID);
 
   async function MintCreation() {
@@ -181,9 +184,8 @@ export function Body() {
       const signature = await wallet.sendTransaction(transaction, connection, {
         signers: [mintKeyPair],
       });
-
-      console.log("Signature of token mint: " + signature);
-      setMessage("Token minted and metadata account created");
+      setSignature(signature)
+      setSuccess(true)
     } catch (e) {
       console.error("Error in mint Creation : " + e);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -244,17 +246,159 @@ export function Body() {
     [name]
   );
 
+  function closeSuccessModal(){
+    setMessage("")
+    setImageData(null)
+    setImageUri("")
+    setName("")
+    setSymbol("")
+    setDescription("")
+    setDecimals(0)
+    setMetaDataUri("")
+    setSuccess(false)
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center  h-screen w-screen ">
       {Loading ? (
-        <div className="flex flex-col justify-center items-center h-screen bg-neutral-900 w-screen">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-cyan-400"></div>
-          <span className="mt-4 text-lg text-cyan-400">Loading...</span>
+        <div className="flex flex-col justify-center items-center h-screen bg-slate-900 w-screen">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-400"></div>
+          <span className="mt-4 text-lg text-blue-400">Loading...</span>
         </div>
       ) : (
-        <div className="flex flex-col w-[95%] sm:w-[85%] md:w-[70%] p-4 sm:p-6 bg-slate-700 rounded-2xl gap-4 items-center justify-center mb-[100px]">
+        <div className="flex flex-col w-[95%] sm:w-[85%] md:w-[70%] p-4 sm:p-6 bg-slate-800 rounded-2xl gap-4 items-center justify-center  border border-slate-600">
+          {success && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+              <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 max-w-md w-[90%] border border-slate-600 shadow-2xl">
+                <button
+                  onClick={closeSuccessModal}
+                  className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1 rounded-full hover:bg-slate-700"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+
+                <div className="flex justify-center mb-6">
+                  <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-8 h-8 text-green-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                <h3 className="text-2xl font-bold text-center text-white mb-4">
+                  Token Created Successfully!
+                </h3>
+
+                <div className="bg-slate-700/50 rounded-xl p-4 mb-6 border border-slate-600">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-lg overflow-hidden border border-slate-500">
+                      <Image
+                        src={imageData || "/final.png"}
+                        alt="Token Image"
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-lg font-semibold text-white mb-1">
+                        {name}
+                      </div>
+                      <div className="text-sm text-slate-300 mb-1">
+                        Symbol: {symbol}
+                      </div>
+                      <div className="text-sm text-slate-400">
+                        Supply: {supply.toLocaleString()} tokens
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {metaDataUri && (
+                  <div className="text-center mb-6">
+                    <a
+                      href={metaDataUri}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm transition-colors"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                      View Metadata on IPFS
+                    </a>
+                  </div>
+                )}
+
+                {signature && (
+                  <div className="text-center mb-6">
+                    <a
+                      href={getExplorerLink({transaction:signature,cluster:connection.rpcEndpoint.includes("devnet")?"devnet":"mainnet"})}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm transition-colors"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                      View Transaction Signature
+                    </a>
+                  </div>
+                )}
+
+                <button
+                  onClick={closeSuccessModal}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                >
+                  Continue
+                </button>
+              </div>
+            </div>
+          )}
           <div className="flex flex-col md:flex-row flex-wrap gap-4 sm:gap-6 items-center justify-center w-full">
-            <div className="flex flex-col text-slate-100 gap-2 w-full  md:w-[48%]">
+            <div className="flex flex-col text-slate-200 gap-2 w-full  md:w-[48%]">
               <div>Name:</div>
               <SearchInput
                 placeholder="Ex: Solana"
@@ -264,7 +408,7 @@ export function Body() {
                 value={name}
               />
             </div>
-            <div className="flex flex-col text-slate-100 gap-2 w-full  md:w-[48%]">
+            <div className="flex flex-col text-slate-200 gap-2 w-full  md:w-[48%]">
               <div>Symbol:</div>
               <SearchInput
                 placeholder="Ex:SOL"
@@ -274,7 +418,7 @@ export function Body() {
                 value={symbol}
               />
             </div>
-            <div className="flex flex-col text-slate-100 gap-2 w-full  md:w-[48%]">
+            <div className="flex flex-col text-slate-200 gap-2 w-full  md:w-[48%]">
               <div>Decimals:</div>
               <SearchInput
                 placeholder="Ex:SOL"
@@ -285,7 +429,7 @@ export function Body() {
                 value={decimals}
               />
             </div>
-            <div className="flex flex-col text-slate-100 gap-2 w-full  md:w-[48%]">
+            <div className="flex flex-col text-slate-200 gap-2 w-full  md:w-[48%]">
               <div>Supply:</div>
               <SearchInput
                 placeholder="Ex:SOL"
@@ -296,49 +440,54 @@ export function Body() {
                 value={supply}
               />
             </div>
-            <div className="flex flex-col text-slate-100 gap-2 w-full  md:w-[48%]">
+            <div className="flex flex-col text-slate-200 gap-2 w-full  md:w-[48%]">
               <div>Description:</div>
               <textarea
                 placeholder="Description"
                 onChange={(e) => {
                   setDescription(e.target.value);
                 }}
-                className="w-full h-[100px] bg-white text-gray-700 rounded-lg p-2 border border-green-700 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-200"
+                className="w-full h-[100px] bg-slate-700 text-slate-200 rounded-lg p-2 border border-slate-600 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/50"
                 value={description}
               />
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center gap-4 px-3 py-1 bg-slate-500 shadow-lg rounded-2xl mt-6 sm:mt-10 border border-gray-200 w-full max-w-[400px]">
+          <div className="flex flex-col items-center justify-center gap-4 px-3 py-1 bg-slate-700 shadow-lg rounded-2xl mt-6 sm:mt-10 border border-slate-600 w-full max-w-[400px]">
             <input
               type="file"
               accept="image/*"
               onChange={handleImageUpload}
               disabled={isUploading || !connection || !wallet.publicKey}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+              className="w-full px-3 py-2 border border-slate-600 rounded-md text-sm text-slate-200 bg-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
             />
-            {imageUri && (
-              <div className="text-green-400 text-sm">
+            {imageUri !== "" ? (
+              <div className="text-emerald-400 text-sm">
                 ✓ Image uploaded to IPFS
               </div>
-            )}
+            ) : null}
           </div>
-          <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] overflow-hidden rounded-lg">
-            {imageData && (
-              <Image
-                src={imageData}
-                alt="image preview"
-                className="object-cover w-full h-full shadow-md"
-                width={100}
-                height={100}
-              />
-            )}
-          </div>
+          {!wallet.publicKey ? (
+            <p className="text-red-500">*Connect to the Wallet</p>
+          ) : null}
+          {imageData ? (
+            <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] overflow-hidden rounded-lg ">
+              {imageData && (
+                <Image
+                  src={imageData}
+                  alt="image preview"
+                  className="object-cover w-full h-full shadow-md"
+                  width={100}
+                  height={100}
+                />
+              )}
+            </div>
+          ) : null}
           <div>
             <button
               className={`px-4 py-2 rounded-lg transition text-white ${
                 isUploading || !imageUri
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-cyan-500 hover:bg-cyan-600"
+                  ? "bg-slate-600 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700 shadow-lg"
               }`}
               onClick={MintCreation}
               disabled={isUploading || !imageUri}
@@ -346,11 +495,11 @@ export function Body() {
               {isUploading ? "Processing" : "Create Token"}
             </button>
           </div>
-          <div className="text-slate-100 text-center w-full max-w-[600px] break-words px-4">
+          <div className="text-slate-200 text-center w-full max-w-[600px] break-words px-4">
             {message}
           </div>
           {metaDataUri && (
-            <div className="text-green-400 text-sm">
+            <div className="text-blue-400 text-sm">
               <a href={metaDataUri} target="_blank" rel="noopener noreferrer">
                 View Metadata on IPFS
               </a>
