@@ -23,6 +23,10 @@ export async function getTokenwithMetaData(publicKey:PublicKey,connection:Connec
 
         const amount=(account.data.parsed.info.tokenAmount.uiAmount) as number;
 
+        if(amount===0){
+            continue;
+        }
+
         const decimals=(account.data.parsed.info.tokenAmount.decimals) as number
 
         const metaDataPDA=PublicKey.findProgramAddressSync([Buffer.from("metadata"),PROGRAM_ID.toBuffer(),mintAddress.toBuffer()],PROGRAM_ID)[0]
