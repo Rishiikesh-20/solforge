@@ -23,7 +23,7 @@ export function Transfer() {
   const [signature, setSignature] = useState("");
   const [receiverAddress, setReceiverAddress] = useState("");
   const [amount, setAmount] = useState<number>(0);
-  
+
   async function handleToken() {
     if (!publicKey) {
       console.error("Account is not connected");
@@ -115,7 +115,7 @@ export function Transfer() {
       const signature = await sendTransaction(transaction, connection);
       setSignature(signature);
       console.log("signature : ", signature);
-      setLoading(false)
+      setLoading(false);
       setSuccess(true);
     } catch (e) {
       if (e instanceof Error) {
@@ -129,20 +129,20 @@ export function Transfer() {
     }
   }
 
-  function closeSuccessModal(){
-    setMessage("")
-    setAmount(0)
-    setReceiverAddress("")
-    setSelectedToken(null)
-    setTokens([])
-    setSignature("")
-    setSuccess(false)
+  function closeSuccessModal() {
+    setMessage("");
+    setAmount(0);
+    setReceiverAddress("");
+    setSelectedToken(null);
+    setTokens([]);
+    setSignature("");
+    setSuccess(false);
   }
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center p-2 sm:p-4 ">
+    <div className="w-full min-h-screen overflow-hidden ">
       {Loading ? (
-        <div className="flex flex-col justify-center items-center h-screen bg-slate-900 w-screen">
+        <div className=" fixed inset-0 z-50 flex flex-col justify-center items-center  bg-slate-900 w-screen">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-400"></div>
           <span className="mt-4 text-lg text-blue-400">Loading...</span>
         </div>
@@ -256,7 +256,8 @@ export function Transfer() {
                         Symbol: {selectedToken?.symbol}
                       </div>
                       <div className="text-sm text-slate-400 truncate">
-                        Amount: {selectedToken?.amount - amount} <span className="text-red-500">-{amount}</span>
+                        Amount: {selectedToken?.amount - amount}{" "}
+                        <span className="text-red-500">-{amount}</span>
                       </div>
                     </div>
                   </div>
@@ -330,7 +331,9 @@ export function Transfer() {
               />
             </div>
             <div className="w-full lg:w-[48%]">
-              <div className="font-bold text-sm sm:text-base md:text-lg mb-2">From </div>
+              <div className="font-bold text-sm sm:text-base md:text-lg mb-2">
+                From{" "}
+              </div>
               <SearchInput
                 value={
                   publicKey

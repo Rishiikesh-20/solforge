@@ -40,7 +40,7 @@ export function Body() {
   const { connection } = useConnection();
   const [Loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [signature,setSignature]=useState("")
+  const [signature, setSignature] = useState("");
   const MPL_TOKEN_METADATA_PROGRAM_ID = new PublicKey(PROGRAM_ID);
 
   async function MintCreation() {
@@ -184,8 +184,8 @@ export function Body() {
       const signature = await wallet.sendTransaction(transaction, connection, {
         signers: [mintKeyPair],
       });
-      setSignature(signature)
-      setSuccess(true)
+      setSignature(signature);
+      setSuccess(true);
     } catch (e) {
       console.error("Error in mint Creation : " + e);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -246,25 +246,27 @@ export function Body() {
     [name]
   );
 
-  function closeSuccessModal(){
-    setMessage("")
-    setImageData(null)
-    setImageUri("")
-    setSupply(0)
-    setName("")
-    setSymbol("")
-    setDescription("")
-    setDecimals(0)
-    setMetaDataUri("")
-    setSuccess(false)
+  function closeSuccessModal() {
+    setMessage("");
+    setImageData(null);
+    setImageUri("");
+    setSupply(0);
+    setName("");
+    setSymbol("");
+    setDescription("");
+    setDecimals(0);
+    setMetaDataUri("");
+    setSuccess(false);
   }
 
   return (
     <div className="flex flex-col items-center min-h-screen w-full px-2 sm:px-4 py-4 sm:py-6">
       {Loading ? (
-        <div className="flex flex-col justify-center items-center h-screen bg-slate-900 w-full">
+        <div className="fixed inset-0 z-50 flex flex-col justify-center items-center bg-slate-900 w-full">
           <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-t-2 border-b-2 border-blue-400"></div>
-          <span className="mt-4 text-base sm:text-lg text-blue-400">Loading...</span>
+          <span className="mt-4 text-base sm:text-lg text-blue-400">
+            Loading...
+          </span>
         </div>
       ) : (
         <div className="flex flex-col w-full max-w-6xl mx-auto p-3 sm:p-4 md:p-6 bg-slate-800 rounded-2xl gap-4 sm:gap-6 items-center justify-center border border-slate-600">
@@ -366,7 +368,12 @@ export function Body() {
                 {signature && (
                   <div className="text-center mb-4 sm:mb-6">
                     <a
-                      href={getExplorerLink({transaction:signature,cluster:connection.rpcEndpoint.includes("devnet")?"devnet":"mainnet"})}
+                      href={getExplorerLink({
+                        transaction: signature,
+                        cluster: connection.rpcEndpoint.includes("devnet")
+                          ? "devnet"
+                          : "mainnet",
+                      })}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-xs sm:text-sm transition-colors break-all"
@@ -468,7 +475,9 @@ export function Body() {
             ) : null}
           </div>
           {!wallet.publicKey ? (
-            <p className="text-red-500 text-sm sm:text-base text-center">*Connect to the Wallet</p>
+            <p className="text-red-500 text-sm sm:text-base text-center">
+              *Connect to the Wallet
+            </p>
           ) : null}
           {imageData ? (
             <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 overflow-hidden rounded-lg">
@@ -501,7 +510,12 @@ export function Body() {
           </div>
           {metaDataUri && (
             <div className="text-blue-400 text-xs sm:text-sm text-center">
-              <a href={metaDataUri} target="_blank" rel="noopener noreferrer" className="break-all hover:text-blue-300 transition-colors">
+              <a
+                href={metaDataUri}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="break-all hover:text-blue-300 transition-colors"
+              >
                 View Metadata on IPFS
               </a>
             </div>

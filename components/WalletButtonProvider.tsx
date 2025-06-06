@@ -1,10 +1,12 @@
-"use client"
-import dynamic from "next/dynamic"
+"use client";
+import dynamic from "next/dynamic";
 
-const WalletMultiButton=dynamic(
-    async()=>(await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,{ssr:false}
-)
+const WalletMultiButton = dynamic(
+  async () =>
+    (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
+  { ssr: false }
+);
 
-export function WalletMultiButtonProvider(){
-    return <WalletMultiButton />
+export function WalletMultiButtonProvider() {
+  return <WalletMultiButton />;
 }
