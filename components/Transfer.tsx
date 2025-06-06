@@ -140,7 +140,7 @@ export function Transfer() {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full min-h-screen flex flex-col items-center p-2 sm:p-4 ">
       {Loading ? (
         <div className="flex flex-col justify-center items-center h-screen bg-slate-900 w-screen">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-400"></div>
@@ -148,24 +148,24 @@ export function Transfer() {
         </div>
       ) : popup ? (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex text-4xl items-center justify-center p-4">
-          <div className="relative bg-slate-800 rounded-xl shadow-xl p-4 sm:p-8 w-full max-w-[400px] border border-slate-600">
+          <div className="relative bg-slate-800 rounded-xl shadow-xl p-4 sm:p-8 w-full max-w-[400px] max-h-[90vh] border border-slate-600">
             <button
-              className="absolute top-3 left-3 text-slate-400 hover:text-slate-200 text-2xl font-bold focus:outline-none"
+              className="absolute top-3 right-3 text-slate-400 hover:text-slate-200 text-2xl font-bold focus:outline-none z-10"
               onClick={() => setPopup(false)}
             >
               &times;
             </button>
-            <h2 className="text-xl font-bold mb-4 text-center text-slate-200">
+            <h2 className="text-lg sm:text-xl font-bold mb-4 text-center text-slate-200 pr-8">
               Select any one of your Token
             </h2>
             {tokens.length == 0 ? (
-              <p className="text-slate-400">No tokens</p>
+              <p className="text-slate-400 text-base">No tokens</p>
             ) : (
-              <ul className="flex flex-col gap-4 sm:gap-6 max-w-full w-full overflow-y-auto h-[250px] p-2 sm:p-4 whitespace-nowrap">
+              <ul className="flex flex-col gap-3 sm:gap-4 max-w-full w-full overflow-y-auto max-h-[60vh] p-2 whitespace-nowrap">
                 {tokens.map((token) => (
                   <li
                     key={token.mint}
-                    className="flex items-center gap-2 sm:gap-4 border rounded-xl border-slate-600 p-2 sm:p-4 bg-slate-700 shadow-sm hover:shadow-lg hover:border-blue-400 transition-all cursor-pointer"
+                    className="flex items-center gap-3 sm:gap-4 border rounded-xl border-slate-600 p-3 sm:p-4 bg-slate-700 shadow-sm hover:shadow-lg hover:border-blue-400 transition-all cursor-pointer"
                     onClick={() => handleClick(token)}
                   >
                     <Image
@@ -175,13 +175,13 @@ export function Transfer() {
                       alt={"/final.png"}
                       width={60}
                       height={60}
-                      className="w-12 h-12 sm:w-20 sm:h-20 rounded-md object-cover border border-slate-600"
+                      className="w-12 h-12 sm:w-16 sm:h-16 rounded-md object-cover border border-slate-600 flex-shrink-0"
                     />
-                    <div className="flex flex-col justify-center">
-                      <div className="text-base sm:text-lg text-slate-200 font-semibold">
+                    <div className="flex flex-col justify-center min-w-0 flex-1">
+                      <div className="text-sm sm:text-base text-slate-200 font-semibold truncate">
                         {token.name}
                       </div>
-                      <div className="text-xs sm:text-sm text-slate-400">
+                      <div className="text-xs sm:text-sm text-slate-400 truncate">
                         {token.amount} {token.symbol}
                       </div>
                     </div>
@@ -192,10 +192,10 @@ export function Transfer() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col w-[95%] sm:w-[85%] md:w-[70%] min-h-[600px] bg-slate-800 rounded-lg p-4 sm:p-6 items-center justify-between  gap-4 sm:gap-6 border border-slate-600">
+        <div className="flex flex-col w-[90%] max-w-6xl mx-auto min-h-[500px] sm:min-h-[600px] bg-slate-800 rounded-lg p-3 sm:p-4 md:p-6 items-center justify-between gap-4 sm:gap-6 border border-slate-600">
           {success && selectedToken && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-              <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 max-w-md w-[90%] border border-slate-600 shadow-2xl">
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+              <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 sm:p-8 max-w-md w-full border border-slate-600 shadow-2xl max-h-[90vh] overflow-y-auto">
                 <button
                   onClick={closeSuccessModal}
                   className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1 rounded-full hover:bg-slate-700"
@@ -233,13 +233,13 @@ export function Transfer() {
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-bold text-center text-white mb-4">
+                <h3 className="text-xl sm:text-2xl font-bold text-center text-white mb-4">
                   Token transfered successfully
                 </h3>
 
                 <div className="bg-slate-700/50 rounded-xl p-4 mb-6 border border-slate-600">
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-lg overflow-hidden border border-slate-500">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border border-slate-500 flex-shrink-0">
                       <Image
                         src={selectedToken?.image || "/final.png"}
                         alt="Token Image"
@@ -248,14 +248,14 @@ export function Transfer() {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="flex-1">
-                      <div className="text-lg font-semibold text-white mb-1">
+                    <div className="flex-1 min-w-0">
+                      <div className="text-base sm:text-lg font-semibold text-white mb-1 truncate">
                         {selectedToken?.name}
                       </div>
-                      <div className="text-sm text-slate-300 mb-1">
+                      <div className="text-sm text-slate-300 mb-1 truncate">
                         Symbol: {selectedToken?.symbol}
                       </div>
-                      <div className="text-sm text-slate-400">
+                      <div className="text-sm text-slate-400 truncate">
                         Amount: {selectedToken?.amount - amount} <span className="text-red-500">-{amount}</span>
                       </div>
                     </div>
@@ -272,10 +272,10 @@ export function Transfer() {
                       })}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm transition-colors"
+                      className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm transition-colors break-all"
                     >
                       <svg
-                        className="w-4 h-4"
+                        className="w-4 h-4 flex-shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -301,11 +301,11 @@ export function Transfer() {
               </div>
             </div>
           )}
-          <div className="p-2 h-full">
+          <div className="w-full flex justify-center p-2">
             <button
               onClick={handleToken}
               disabled={!publicKey || Loading}
-              className={`font-bold text-[16px] sm:text-[20px] p-2 rounded-lg transition duration-300 
+              className={`font-bold text-sm sm:text-base md:text-lg lg:text-xl p-3 sm:p-4 rounded-lg transition duration-300 
                                     ${
                                       !publicKey || Loading
                                         ? "bg-slate-600 text-slate-400 cursor-not-allowed opacity-60"
@@ -319,9 +319,9 @@ export function Transfer() {
                   : "Connect to the Account"}
             </button>
           </div>
-          <div className="flex flex-wrap w-full gap-4 sm:gap-9 text-slate-200 h-full">
-            <div className="w-full  md:w-[48%]">
-              <div className="font-bold text-[16px] sm:text-[20px]">
+          <div className="flex flex-col lg:flex-row lg:flex-wrap w-full gap-4 sm:gap-6 text-slate-200">
+            <div className="w-full lg:w-[48%]">
+              <div className="font-bold text-sm sm:text-base md:text-lg mb-2">
                 Mint Address
               </div>
               <SearchInput
@@ -329,8 +329,8 @@ export function Transfer() {
                 value={selectedToken ? selectedToken.mint : "Select your token"}
               />
             </div>
-            <div className="w-full md:w-[48%]">
-              <div className="font-bold text-[16px] sm:text-[20px]">From </div>
+            <div className="w-full lg:w-[48%]">
+              <div className="font-bold text-sm sm:text-base md:text-lg mb-2">From </div>
               <SearchInput
                 value={
                   publicKey
@@ -340,8 +340,8 @@ export function Transfer() {
                 readOnly
               />
             </div>
-            <div className="w-full md:w-[48%]">
-              <div className="font-bold text-[16px] sm:text-[20px]">
+            <div className="w-full lg:w-[48%]">
+              <div className="font-bold text-sm sm:text-base md:text-lg mb-2">
                 Receiver Public Key{" "}
               </div>
               <SearchInput
@@ -349,8 +349,8 @@ export function Transfer() {
                 value={receiverAddress}
               />
             </div>
-            <div className="w-full md:w-[48%]">
-              <div className="font-bold text-[16px] sm:text-[20px]">
+            <div className="w-full lg:w-[48%]">
+              <div className="font-bold text-sm sm:text-base md:text-lg mb-2">
                 Amount{" "}
               </div>
               <SearchInput
@@ -369,15 +369,15 @@ export function Transfer() {
                 max={selectedToken?.amount ?? 0}
               />
               {amount > (selectedToken?.amount || 0) && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-400 text-sm mt-1">
                   Amount exceeds your balance.
                 </p>
               )}
             </div>
           </div>
           {selectedToken ? (
-            <div className="flex w-full sm:w-[300px] h-[80px] sm:h-[100px] overflow-hidden rounded-xl border border-slate-600 bg-slate-700 shadow-sm hover:shadow-lg transition-all cursor-pointer">
-              <div className="w-[30%] h-full">
+            <div className="flex w-full max-w-sm mx-auto h-20 sm:h-24 overflow-hidden rounded-xl border border-slate-600 bg-slate-700 shadow-sm hover:shadow-lg transition-all cursor-pointer">
+              <div className="w-20 sm:w-24 h-full flex-shrink-0">
                 <Image
                   src={
                     selectedToken.image !== "Unknown"
@@ -390,17 +390,17 @@ export function Transfer() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex flex-col justify-center items-center w-[70%] p-2">
-                <div className="text-base sm:text-lg text-slate-200 font-semibold">
+              <div className="flex flex-col justify-center flex-1 p-2 sm:p-3 min-w-0">
+                <div className="text-sm sm:text-base text-slate-200 font-semibold truncate">
                   Name: {selectedToken.name}
                 </div>
-                <div className="text-xs sm:text-sm text-slate-400">
+                <div className="text-xs sm:text-sm text-slate-400 truncate">
                   Balance: {selectedToken.amount} {selectedToken.symbol}
                 </div>
               </div>
             </div>
           ) : null}
-          <div className="flex items-center justify-center w-full">
+          <div className="flex items-center justify-center w-full px-2">
             <button
               onClick={handleTransfer}
               disabled={
@@ -410,7 +410,7 @@ export function Transfer() {
                 receiverAddress === "" ||
                 amount === 0
               }
-              className={`text-lg sm:text-2xl font-bold text-white px-4 py-2 rounded-xl shadow-lg text-center w-fit transition duration-300
+              className={`text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl shadow-lg text-center w-full max-w-md transition duration-300
                             ${
                               selectedToken === null ||
                               !publicKey ||
@@ -432,7 +432,7 @@ export function Transfer() {
                       : "Transfer tokens"}
             </button>
           </div>
-          <div className="text-slate-200 text-center w-full max-w-[600px] break-words px-4">
+          <div className="text-slate-200 text-center w-full max-w-2xl break-words px-2 text-sm sm:text-base">
             {message}
           </div>
         </div>

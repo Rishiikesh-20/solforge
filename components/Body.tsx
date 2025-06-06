@@ -250,6 +250,7 @@ export function Body() {
     setMessage("")
     setImageData(null)
     setImageUri("")
+    setSupply(0)
     setName("")
     setSymbol("")
     setDescription("")
@@ -259,23 +260,23 @@ export function Body() {
   }
 
   return (
-    <div className="flex flex-col items-center  h-screen w-screen ">
+    <div className="flex flex-col items-center min-h-screen w-full px-2 sm:px-4 py-4 sm:py-6">
       {Loading ? (
-        <div className="flex flex-col justify-center items-center h-screen bg-slate-900 w-screen">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-400"></div>
-          <span className="mt-4 text-lg text-blue-400">Loading...</span>
+        <div className="flex flex-col justify-center items-center h-screen bg-slate-900 w-full">
+          <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-t-2 border-b-2 border-blue-400"></div>
+          <span className="mt-4 text-base sm:text-lg text-blue-400">Loading...</span>
         </div>
       ) : (
-        <div className="flex flex-col w-[95%] sm:w-[85%] md:w-[70%] p-4 sm:p-6 bg-slate-800 rounded-2xl gap-4 items-center justify-center  border border-slate-600">
+        <div className="flex flex-col w-full max-w-6xl mx-auto p-3 sm:p-4 md:p-6 bg-slate-800 rounded-2xl gap-4 sm:gap-6 items-center justify-center border border-slate-600">
           {success && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-              <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 max-w-md w-[90%] border border-slate-600 shadow-2xl">
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+              <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 sm:p-8 max-w-md w-full border border-slate-600 shadow-2xl">
                 <button
                   onClick={closeSuccessModal}
-                  className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1 rounded-full hover:bg-slate-700"
+                  className="absolute top-3 right-3 sm:top-4 sm:right-4 text-slate-400 hover:text-white transition-colors p-1 rounded-full hover:bg-slate-700"
                 >
                   <svg
-                    className="w-6 h-6"
+                    className="w-5 h-5 sm:w-6 sm:h-6"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -289,10 +290,10 @@ export function Body() {
                   </svg>
                 </button>
 
-                <div className="flex justify-center mb-6">
-                  <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center">
+                <div className="flex justify-center mb-4 sm:mb-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-500/20 rounded-full flex items-center justify-center">
                     <svg
-                      className="w-8 h-8 text-green-400"
+                      className="w-6 h-6 sm:w-8 sm:h-8 text-green-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -307,13 +308,13 @@ export function Body() {
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-bold text-center text-white mb-4">
+                <h3 className="text-xl sm:text-2xl font-bold text-center text-white mb-3 sm:mb-4">
                   Token Created Successfully!
                 </h3>
 
-                <div className="bg-slate-700/50 rounded-xl p-4 mb-6 border border-slate-600">
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-lg overflow-hidden border border-slate-500">
+                <div className="bg-slate-700/50 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 border border-slate-600">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg overflow-hidden border border-slate-500 flex-shrink-0">
                       <Image
                         src={imageData || "/final.png"}
                         alt="Token Image"
@@ -322,14 +323,14 @@ export function Body() {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="flex-1">
-                      <div className="text-lg font-semibold text-white mb-1">
+                    <div className="flex-1 min-w-0">
+                      <div className="text-base sm:text-lg font-semibold text-white mb-1 truncate">
                         {name}
                       </div>
-                      <div className="text-sm text-slate-300 mb-1">
+                      <div className="text-xs sm:text-sm text-slate-300 mb-1">
                         Symbol: {symbol}
                       </div>
-                      <div className="text-sm text-slate-400">
+                      <div className="text-xs sm:text-sm text-slate-400">
                         Supply: {supply.toLocaleString()} tokens
                       </div>
                     </div>
@@ -337,15 +338,15 @@ export function Body() {
                 </div>
 
                 {metaDataUri && (
-                  <div className="text-center mb-6">
+                  <div className="text-center mb-4 sm:mb-6">
                     <a
                       href={metaDataUri}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm transition-colors"
+                      className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-xs sm:text-sm transition-colors break-all"
                     >
                       <svg
-                        className="w-4 h-4"
+                        className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -363,15 +364,15 @@ export function Body() {
                 )}
 
                 {signature && (
-                  <div className="text-center mb-6">
+                  <div className="text-center mb-4 sm:mb-6">
                     <a
                       href={getExplorerLink({transaction:signature,cluster:connection.rpcEndpoint.includes("devnet")?"devnet":"mainnet"})}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm transition-colors"
+                      className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-xs sm:text-sm transition-colors break-all"
                     >
                       <svg
-                        className="w-4 h-4"
+                        className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -390,16 +391,16 @@ export function Body() {
 
                 <button
                   onClick={closeSuccessModal}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 sm:py-3 px-4 rounded-lg transition-colors text-sm sm:text-base"
                 >
                   Continue
                 </button>
               </div>
             </div>
           )}
-          <div className="flex flex-col md:flex-row flex-wrap gap-4 sm:gap-6 items-center justify-center w-full">
-            <div className="flex flex-col text-slate-200 gap-2 w-full  md:w-[48%]">
-              <div>Name:</div>
+          <div className="flex flex-col lg:flex-row flex-wrap gap-3 sm:gap-4 md:gap-6 items-start justify-center w-full">
+            <div className="flex flex-col text-slate-200 gap-2 w-full lg:w-[48%]">
+              <div className="text-sm sm:text-base">Name:</div>
               <SearchInput
                 placeholder="Ex: Solana"
                 onChange={(e) => {
@@ -408,8 +409,8 @@ export function Body() {
                 value={name}
               />
             </div>
-            <div className="flex flex-col text-slate-200 gap-2 w-full  md:w-[48%]">
-              <div>Symbol:</div>
+            <div className="flex flex-col text-slate-200 gap-2 w-full lg:w-[48%]">
+              <div className="text-sm sm:text-base">Symbol:</div>
               <SearchInput
                 placeholder="Ex:SOL"
                 onChange={(e) => {
@@ -418,10 +419,10 @@ export function Body() {
                 value={symbol}
               />
             </div>
-            <div className="flex flex-col text-slate-200 gap-2 w-full  md:w-[48%]">
-              <div>Decimals:</div>
+            <div className="flex flex-col text-slate-200 gap-2 w-full lg:w-[48%]">
+              <div className="text-sm sm:text-base">Decimals:</div>
               <SearchInput
-                placeholder="Ex:SOL"
+                placeholder="Ex: 6"
                 type="number"
                 onChange={(e) => {
                   setDecimals(parseInt(e.target.value));
@@ -429,10 +430,10 @@ export function Body() {
                 value={decimals}
               />
             </div>
-            <div className="flex flex-col text-slate-200 gap-2 w-full  md:w-[48%]">
-              <div>Supply:</div>
+            <div className="flex flex-col text-slate-200 gap-2 w-full lg:w-[48%]">
+              <div className="text-sm sm:text-base">Supply:</div>
               <SearchInput
-                placeholder="Ex:SOL"
+                placeholder="Ex: 1000000"
                 type="number"
                 onChange={(e) => {
                   setSupply(parseInt(e.target.value));
@@ -440,37 +441,37 @@ export function Body() {
                 value={supply}
               />
             </div>
-            <div className="flex flex-col text-slate-200 gap-2 w-full  md:w-[48%]">
-              <div>Description:</div>
+            <div className="flex flex-col text-slate-200 gap-2 w-full">
+              <div className="text-sm sm:text-base">Description:</div>
               <textarea
                 placeholder="Description"
                 onChange={(e) => {
                   setDescription(e.target.value);
                 }}
-                className="w-full h-[100px] bg-slate-700 text-slate-200 rounded-lg p-2 border border-slate-600 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/50"
+                className="w-full h-[80px] sm:h-[100px] bg-slate-700 text-slate-200 rounded-lg p-2 sm:p-3 border border-slate-600 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/50 text-sm sm:text-base resize-none"
                 value={description}
               />
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center gap-4 px-3 py-1 bg-slate-700 shadow-lg rounded-2xl mt-6 sm:mt-10 border border-slate-600 w-full max-w-[400px]">
+          <div className="flex flex-col items-center justify-center gap-3 sm:gap-4 px-3 sm:px-4 py-3 sm:py-4 bg-slate-700 shadow-lg rounded-2xl mt-4 sm:mt-6 md:mt-10 border border-slate-600 w-full max-w-md">
             <input
               type="file"
               accept="image/*"
               onChange={handleImageUpload}
               disabled={isUploading || !connection || !wallet.publicKey}
-              className="w-full px-3 py-2 border border-slate-600 rounded-md text-sm text-slate-200 bg-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
+              className="w-full px-3 py-2 border border-slate-600 rounded-md text-xs sm:text-sm text-slate-200 bg-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
             />
             {imageUri !== "" ? (
-              <div className="text-emerald-400 text-sm">
+              <div className="text-emerald-400 text-xs sm:text-sm text-center">
                 ✓ Image uploaded to IPFS
               </div>
             ) : null}
           </div>
           {!wallet.publicKey ? (
-            <p className="text-red-500">*Connect to the Wallet</p>
+            <p className="text-red-500 text-sm sm:text-base text-center">*Connect to the Wallet</p>
           ) : null}
           {imageData ? (
-            <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] overflow-hidden rounded-lg ">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 overflow-hidden rounded-lg">
               {imageData && (
                 <Image
                   src={imageData}
@@ -482,9 +483,9 @@ export function Body() {
               )}
             </div>
           ) : null}
-          <div>
+          <div className="w-full max-w-xs">
             <button
-              className={`px-4 py-2 rounded-lg transition text-white ${
+              className={`w-full px-4 py-2.5 sm:py-3 rounded-lg transition text-white text-sm sm:text-base font-medium ${
                 isUploading || !imageUri
                   ? "bg-slate-600 cursor-not-allowed"
                   : "bg-blue-600 hover:bg-blue-700 shadow-lg"
@@ -492,15 +493,15 @@ export function Body() {
               onClick={MintCreation}
               disabled={isUploading || !imageUri}
             >
-              {isUploading ? "Processing" : "Create Token"}
+              {isUploading ? "Processing..." : "Create Token"}
             </button>
           </div>
-          <div className="text-slate-200 text-center w-full max-w-[600px] break-words px-4">
+          <div className="text-slate-200 text-center w-full max-w-2xl break-words px-2 sm:px-4 text-sm sm:text-base">
             {message}
           </div>
           {metaDataUri && (
-            <div className="text-blue-400 text-sm">
-              <a href={metaDataUri} target="_blank" rel="noopener noreferrer">
+            <div className="text-blue-400 text-xs sm:text-sm text-center">
+              <a href={metaDataUri} target="_blank" rel="noopener noreferrer" className="break-all hover:text-blue-300 transition-colors">
                 View Metadata on IPFS
               </a>
             </div>
